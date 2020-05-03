@@ -3,8 +3,7 @@ import os.path
 import tweepy
 import logging
 
-def verifyLogin():
-    logger = logging.getLogger()
+def createAPI():
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "config/config.json")
     with open(path) as configFile:
@@ -19,17 +18,19 @@ def verifyLogin():
     auth.set_access_token(ACCESS_TOKEN,ACCESS_TOKEN_SECRET)
     #creating api
     api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
+    return api
 
+#use this to test login credentials. 
+def verifyLogin():
+    logger = logging.getLogger()
+    api = createAPI()
     try:
         #verifying credentials
         api.verify_credentials()
     except Exception as ex:
-        logger.log("Error Creating API. Check log.")
+        logger.log("Failed to verify credentials. Check log.")
         raise ex
-    logger.log("API Created.")
-    return api
-
-
+    logger.log("Tokens are valid. Credentials verified.")
 
 
 
