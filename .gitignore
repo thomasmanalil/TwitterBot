@@ -1,3 +1,5 @@
 __pycahce*
 *.cpython*
 *config.json
+data*
+
