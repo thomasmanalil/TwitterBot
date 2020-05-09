@@ -1,5 +1,5 @@
 __pycahce*
 *.cpython*
 *config.json
-data*
-
+data\
+lastfailed*

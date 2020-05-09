@@ -4,7 +4,7 @@ import os
 import data
  
 
-class Testdata(unittest.TestCase): 
+class DataTest(unittest.TestCase): 
 
     def __init__(self, *args, **kwargs):
         super(DataTest, self).__init__(*args, **kwargs)
