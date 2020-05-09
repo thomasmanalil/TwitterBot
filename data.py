@@ -22,7 +22,7 @@ def getSinceId():
 
 def setSinceId(Id):    
     try:
-        dataFile = open(DATA_FILE,"w")
+        dataFile = open(DATA_FILE,"w+")
         dataFile.write(str(Id))
     except Exception as e:
         config.LOGGER.info(e)

@@ -30,8 +30,8 @@ class DataTest(unittest.TestCase):
     
     def test_getSinceId_EmptyFile(self):
         try:
-            emptyFile=open(self.file,"w")
-            emptyFile.close()
+            emptyFile=open(self.file,"w+")
+            emptyFile.close()   
             self.assertEqual(1,data.getSinceId())            
         except Exception as e:
             raise e
@@ -41,6 +41,12 @@ class DataTest(unittest.TestCase):
     def test_getSinceId_readFromFile(self):
         data.setSinceId(100)
         self.assertEqual(100, data.getSinceId())
+
+    def test_setSinceId_TruncatingAndAWrittingNewValue(self):
+        data.setSinceId(100)
+        self.assertEqual(100,data.getSinceId())
+        data.setSinceId(1500)
+        self.assertEqual(1500, data.getSinceId())
         
 
 if __name__ == "__main__":
