@@ -3,9 +3,14 @@ import os.path
 import tweepy
 import logging
 
+PARENT_FOLDER = os.path.abspath(os.path.dirname(__file__))
+
+logging.basicConfig(level=logging.INFO)
+LOGGER = logging.getLogger()
+
 def createAPI():
-    my_path = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(my_path, "config/config.json")
+    
+    path = os.path.join(PARENT_FOLDER, "config/config.json")
     with open(path) as configFile:
         #reading tokens from config file
         configData=json.load(configFile)
