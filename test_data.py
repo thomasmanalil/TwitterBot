@@ -1,7 +1,7 @@
 import unittest
 import sys
 import os
-import data
+from TwitterBot import data
 
 class DataTest(unittest.TestCase): 
 
