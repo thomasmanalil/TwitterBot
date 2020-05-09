@@ -33,5 +33,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        cd /home/runner/work/TwitterBot/TwitterBot
-        python -m unittest -v test_data
+        cd 
+        python -m unittest -v /home/runner/work/TwitterBot/TwitterBot/test_data.py
