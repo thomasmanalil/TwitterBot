@@ -1,6 +1,6 @@
 import os.path
 import sys
-from TwitterBot import config
+import config
 
 DATA_FILE = os.path.join(config.PARENT_FOLDER,"data/data.txt")
 
