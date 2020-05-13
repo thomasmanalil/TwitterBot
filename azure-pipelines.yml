@@ -26,6 +26,10 @@ steps:
 
 - script: |
     pip install pytest
-    python -m  pytest
-    cp -r . '$(Agent.BuildDirectory)'
+    python -m  pytest    
   displayName: 'pytest'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)'
+    ArtifactName: 'BotPackage'
+    publishLocation: 'Container'
