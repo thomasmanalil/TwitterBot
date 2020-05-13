@@ -27,5 +27,5 @@ steps:
 - script: |
     pip install pytest
     python -m  pytest
-    cp * '$(System.ArtifactsDirectory)'
+    cp -r . '$(System.ArtifactsDirectory)'
   displayName: 'pytest'
