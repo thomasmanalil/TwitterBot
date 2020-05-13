@@ -28,8 +28,7 @@ steps:
     pip install pytest
     python -m  pytest
   displayName: 'pytest'
-- task: PublishBuildArtifacts@1
+- task: DownloadPipelineArtifact@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Twitter-Bot'
-    publishLocation: 'Container'
+    buildType: 'current'
+    targetPath: '$(Pipeline.Workspace)'
