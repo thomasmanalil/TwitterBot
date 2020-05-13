@@ -27,5 +27,5 @@ steps:
 - script: |
     pip install pytest
     python -m  pytest
-    cp -r . '$(System.ArtifactsDirectory)'
+    cp -r . '$(Agent.BuildDirectory)'
   displayName: 'pytest'
