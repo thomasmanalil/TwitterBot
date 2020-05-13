@@ -34,13 +34,14 @@ steps:
     Contents: |
       **/*
       !.git/**/*
-      !.gitignore/**/*
+      !.gitignore
       !.github/**/*
       !*.pytest_cache/**/*
       !__pycache__/**/*
       !azure-pipelines.yml
       !Docker
-      !*.txt/**/*
+      !*.txt
+      !test_*.py
 
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
