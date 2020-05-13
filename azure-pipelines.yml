@@ -34,7 +34,7 @@ steps:
     Contents: |
       **/*
       !.git/**/*
-      !.gitignore
+      !*.gitignore
       !.github/**/*
       !*.pytest_cache/**/*
       !__pycache__/**/*
