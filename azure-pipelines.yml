@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python37:
+    Python-Build:
       python.version: '3.8'
 
 steps:
@@ -33,7 +33,13 @@ steps:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: |
       **/*
-      !.git/**/*     
+      !.git/**/*
+      !.gitignore/**/*
+      !.github/**/*
+      !*.pytest_cache/**/*
+      !__pycache__/**/*
+      !azure-pipelines.yml
+
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
 
