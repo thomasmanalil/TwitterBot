@@ -32,12 +32,7 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: |
-      !test*
-      !.git*
-      !.pytest*
-      !*pipeline*
-      !__pycache*
-      **
+      !.git*      
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
 
