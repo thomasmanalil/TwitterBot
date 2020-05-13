@@ -32,7 +32,7 @@ steps:
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: |
-      !.git*      
+      !**\!(*.git*)      
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
 
