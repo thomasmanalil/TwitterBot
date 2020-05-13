@@ -37,6 +37,7 @@ steps:
       !.pytest*
       !*pipeline*
       !__pycache*
+      **
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
 
