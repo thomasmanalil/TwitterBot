@@ -39,6 +39,8 @@ steps:
       !*.pytest_cache/**/*
       !__pycache__/**/*
       !azure-pipelines.yml
+      !Docker
+      !*.txt/**/*
 
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
