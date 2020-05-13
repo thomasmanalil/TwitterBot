@@ -28,8 +28,20 @@ steps:
     pip install pytest
     python -m  pytest    
   displayName: 'pytest'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+      !test*
+      !.git*
+      !.pytest*
+      !*pipeline*
+      !__pycache*
+    TargetFolder: $(Build.ArtifactStagingDirectory)
+    CleanTargetFolder: true
+
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.SourcesDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'BotPackage'
     publishLocation: 'Container'
