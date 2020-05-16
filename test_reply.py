@@ -8,7 +8,9 @@ import array
 import tweepy
 from tweepy import User
 from twitter import Twitter
+import os
 
+PARENT_FOLDER = os.path.abspath(os.path.dirname(__file__))
 class ReplyTest(unittest.TestCase):
 
     

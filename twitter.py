@@ -1,13 +1,11 @@
 import tweepy
-from config import CONSUMER_KEY
-from config import CONSUMER_SECRET
-from config import ACCESS_TOKEN
-from config import ACCESS_TOKEN_SECRET
+from config import Config
 
 def createAPI():      
     #setting twitter tokens
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    conf = Config()
+    auth = tweepy.OAuthHandler(conf.CONSUMER_KEY, conf.CONSUMER_SECRET)
+    auth.set_access_token(conf.ACCESS_TOKEN, conf.ACCESS_TOKEN_SECRET)
     #creating api
     api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
     return api
