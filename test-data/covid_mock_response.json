@@ -1,0 +1,23 @@
+[
+       {
+            "Country": "United Kingdom",
+            "CountryCode": "GB",
+            "Date": "2020-02-01T00:00:00Z",
+            "Deaths": 10,
+            "Province": ""
+        },
+        {
+            "Country": "United Kingdom",
+            "CountryCode": "GB",
+            "Date": "2020-02-02T00:00:00Z",
+            "Deaths": 5,
+            "Province": ""
+        },
+        {
+            "Country": "United Kingdom",
+            "CountryCode": "GB",
+            "Date": "2020-02-0T00:00:00Z",
+            "Deaths": 25,
+            "Province": ""
+        }
+]
