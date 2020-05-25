@@ -1,10 +1,35 @@
 import covid_api
 import chart_api
+from config import Config
+import json
+import os
+
+COUNTRIES = None
+
+def load_countries():
+    global COUNTRIES
+    if (os.path.exists(os.path.join(Config.PARENT_FOLDER,"data/countries.json"))):
+        with open(os.path.join(Config.PARENT_FOLDER,"data/countries.json")) as countries_data:
+            COUNTRIES = json.load(countries_data)
 
 def get_matching_country(tweet):
-    # TODO: update dummy logic
-    country = "United-Kingdom"
-    return country
+    matching_country = None
+    tweet_lower = tweet.lower()
+    if(COUNTRIES == None):
+        load_countries()
+    for country in COUNTRIES:
+        if(str(country['Country']).lower() in tweet_lower):
+            matching_country = country['Slug']
+            break
+        else:
+            if(str(" "+country['ISO2']+" ").lower() in tweet_lower):
+                matching_country = country['Slug']
+                break
+            else:
+                if(str(country['Slug']).lower() in tweet_lower):
+                    matching_country = country['Slug']
+                    break
+    return matching_country
 
 def get_daily_death_trend(country):
     # *call Covid19 wrapper and get data
@@ -45,16 +70,31 @@ def get_death_trend_graph(daily_death_trend):
     # graph_url = "http://URL"
     return graph_url
 
-def genereate_covid_trend(tweet):
-    # *Extract contry Id's from tweet content
-    country = get_matching_country(tweet)
-    # Get covid data, call covid19 API
-    daily_death_trend = get_daily_death_trend(country)
+def genereate_covid_death_trend_reply(tweet):
+    response_string = None
+    try:
+        # *Extract contry Id's from tweet content
+        country = get_matching_country(tweet)
+        if (country == None):
+            response_string = "No matching country found."
+        else:
+            # Get covid data, call covid19 API
+            daily_death_trend = get_daily_death_trend(country)
+            if (len(daily_death_trend) == 0):
+                response_string = "Couldnt find covid data for "+country
+            else:
+                # *Genereate trend Graph
+                url = get_death_trend_graph(daily_death_trend)
+                if (url == None):
+                    response_string = "Sorry!.Couldn't generate trend for "+country
+                else:
+                    # *Generate Reply string
+                    response_string = "Daily Death Trend for "+country+": " + url
+    except Exception as ex:
+        Config.LOGGER.info(ex)
+    finally:
+        return response_string
 
-    # *Genereate trend Graph
-    url = get_death_trend_graph(daily_death_trend)
 
-    # *Generate Reply string
-    response_string = "Daily Death Trend for <Country>: " + url
-    return response_string
-
+if __name__ == "__main__":
+    print(get_matching_country("United Kingdom"))

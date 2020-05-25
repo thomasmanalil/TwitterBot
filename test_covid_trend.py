@@ -27,7 +27,16 @@ def mock_covid_empty_json(country):
 def mock_chart_success(dates, data_set):
     return "http://sample-url"
 
+def mock_death_trend_with_data(country):
+    dates = ["20-05-2020", "21-05-2020", "22-05-2020", "23-05-2020", "24-05-2020"]
+    daily_count = [5, 10, 12, 20, 40]
+    daily_death_trend = []
+    daily_death_trend.append(dates)
+    daily_death_trend.append(daily_count)
+    return daily_death_trend
 
+def mock_get_death_trend_graph(daily_death_trend):
+    return "http://sample-url"
 class CovidTrendTest(unittest.TestCase):
     # TODO: Update Test cases.
     ''' Test cases for get_daily_death_trend '''
@@ -135,15 +144,63 @@ class CovidTrendTest(unittest.TestCase):
         self.assertEqual(None, chart_url)
 
     ''' Test cases for genereate_covid_trend'''
-    def test_genereate_covid_trend_invalid_country(self):
+    @patch.object(covid_trend, 'get_death_trend_graph')
+    @patch.object(covid_trend, 'get_daily_death_trend')
+    @patch.object(covid_trend, 'get_matching_country')
+    def test_genereate_covid_trend_success(self, mock_country, mock_data_set, mock_chart):
+        mock_country.return_value = "united-kingdom"
+        mock_data_set.side_effect = mock_death_trend_with_data
+        mock_chart.side_effect = mock_get_death_trend_graph
+        reply = covid_trend.genereate_covid_death_trend_reply("united-kingdom")
+        expected_value = "Daily Death Trend for united-kingdom: http://sample-url"
+        self.assertEqual(expected_value, reply)
+
+    @patch.object(covid_trend, 'get_death_trend_graph')
+    @patch.object(covid_trend, 'get_daily_death_trend')
+    @patch.object(covid_trend, 'get_matching_country')
+    def test_generate_covid_trend_no_matching_country(self, mock_country, mock_data_set, mock_chart):
+        mock_country.return_value = None
+        mock_data_set.side_effect = mock_death_trend_with_data
+        mock_chart.side_effect = mock_get_death_trend_graph
+        reply = covid_trend.genereate_covid_death_trend_reply("united-kingdom")
+        expected_value = "No matching country found."
+        self.assertEqual(expected_value, reply)
+        self.assertEqual(0, mock_data_set.call_count)
+        self.assertEqual(0, mock_chart.call_count)
+    @patch.object(covid_trend, 'get_death_trend_graph')
+    @patch.object(covid_trend, 'get_daily_death_trend')
+    @patch.object(covid_trend, 'get_matching_country')
+    def test_genereate_covid_trend_empty_data_set_from_covid_api(self, mock_country, mock_data_set, mock_chart):
+        mock_country.return_value = "united-kingdom"
+        empty_data = []
+        mock_data_set.return_value = empty_data
+        mock_chart.side_effect = mock_get_death_trend_graph
+        reply = covid_trend.genereate_covid_death_trend_reply("united-kingdom")
+        expected_value = "Couldnt find covid data for united-kingdom"
+        self.assertEqual(expected_value, reply)
+        self.assertEqual(1, mock_country.call_count)
+        self.assertEqual(0, mock_chart.call_count)
+    @patch.object(covid_trend, 'get_death_trend_graph')
+    @patch.object(covid_trend, 'get_daily_death_trend')
+    @patch.object(covid_trend, 'get_matching_country')
+    def test_genereate_covid_trend_empty_url_from_quick_chart(self, mock_country, mock_data_set, mock_chart):
+        mock_country.return_value = "united-kingdom"
+        mock_data_set.side_effect = mock_death_trend_with_data
+        emtpy_url = None
+        mock_chart.return_value = emtpy_url
+        reply = covid_trend.genereate_covid_death_trend_reply("united-kingdom")
+        expected_value = "Sorry!.Couldn't generate trend for united-kingdom"
+        self.assertEqual(expected_value, reply)
+        self.assertEqual(1, mock_country.call_count)
+        self.assertEqual(1, mock_data_set.call_count)
+    def test_genereate_covid_trend_exception_in_getting_death_trend(self):
         pass
-    def test_genereate_covid_trend_covid_api_exception(self):
-        pass
-    def test_genereate_covid_trend_chart_api_exception(self):
-        pass
-    def test_genereate_covid_trend_check_response_string(self):
+    def test_genereate_covid_trend_exception_in_generating_graph(self):
         pass
 
+
+    # TODO - Add test cases for get_matching_country
+    
     if __name__ == "__main__":
         unittest.main()
 
