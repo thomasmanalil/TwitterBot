@@ -230,12 +230,11 @@ class CovidTrendTest(unittest.TestCase):
     def test_get_matching_country_hit_country_at_end_of_tweet(self):
         matching_country = covid_trend.get_matching_country("get Burkina Faso")
         self.assertEqual("burkina-faso", matching_country)
-    
     def test_get_matching_country_hit_slug_full_string_match(self):
         pass
     def test_get_matching_country_hit_slug_as_word_in_tweet(self):
         pass
-    def test_get_matching_country_hit_slug_as_word_in_tweet(self):
+    def test_get_matching_country_hit_slug_not_as_word_in_tweet(self):
         pass
     def test_get_matching_country_hit_iso2(self):
         pass
