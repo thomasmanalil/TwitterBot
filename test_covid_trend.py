@@ -38,6 +38,12 @@ def mock_death_trend_with_data(country):
 def mock_get_death_trend_graph(daily_death_trend):
     return "http://sample-url"
 class CovidTrendTest(unittest.TestCase):
+    def tearDown(self):
+        covid_trend.COUNTRIES = None
+
+    def setUp(self):
+        covid_trend.COUNTRIES = None
+
     # TODO: Update Test cases.
     ''' Test cases for get_daily_death_trend '''
     @patch.object(covid_api, 'get_covid_daily_deaths')
@@ -200,7 +206,55 @@ class CovidTrendTest(unittest.TestCase):
 
 
     # TODO - Add test cases for get_matching_country
+
+    def test_get_matching_country_COUNTRIES_not_loaded(self):
+        covid_trend.get_matching_country("sample tweet")
+        self.assertIsNot(0, len(covid_trend.COUNTRIES))
+    def test_get_matching_country_countries_already_loaded(self):
+        countries = [{"Country": "Germany","Slug": "germany","ISO2": "DE"}]
+        covid_trend.COUNTRIES = countries
+        covid_trend.get_matching_country("sample tweet")
+        self.assertEqual(1, len(covid_trend.COUNTRIES))
+    def test_get_matching_country_hit_country_full_string_match(self):
+        matching_country = covid_trend.get_matching_country("Burkina Faso")
+        self.assertEqual("burkina-faso", matching_country)
+
+    def test_get_matching_country_hit_country_as_word_in_tweet(self):
+        matching_country = covid_trend.get_matching_country("get Burkina Faso details.")
+        self.assertEqual("burkina-faso", matching_country)
+
+    def test_get_matching_country_hit_country_not_as_word_in_tweet(self):
+        matching_country = covid_trend.get_matching_country("getBurkina Fasodetails.")
+        self.assertEqual("burkina-faso", matching_country)
+
+    def test_get_matching_country_hit_country_at_end_of_tweet(self):
+        matching_country = covid_trend.get_matching_country("get Burkina Faso")
+        self.assertEqual("burkina-faso", matching_country)
     
+    def test_get_matching_country_hit_slug_full_string_match(self):
+        pass
+    def test_get_matching_country_hit_slug_as_word_in_tweet(self):
+        pass
+    def test_get_matching_country_hit_slug_as_word_in_tweet(self):
+        pass
+    def test_get_matching_country_hit_iso2(self):
+        pass
+    def test_get_matching_country_hit_iso2_no_space(self):
+        pass
+    def test_get_matching_country_hit_iso2_at_end_of_tweet(self):
+        pass
+    def test_get_matching_country_no_hit(self):
+        pass
+    def test_get_matching_country_partial_match(self):
+        pass
+    def test_get_matching_country_multiple_match(self):
+        pass
+    def test_get_matching_country_BLOCK_LETTERS(self):
+        pass
+    def test_get_matching_country_camel_case(self):
+        pass
+
+
     if __name__ == "__main__":
         unittest.main()
 
