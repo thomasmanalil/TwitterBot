@@ -13,16 +13,17 @@ import os
 PARENT_FOLDER = os.path.abspath(os.path.dirname(__file__))
 class ReplyTest(unittest.TestCase):
 
-    
-    def getAllTweets(self,since_id):        
+
+    def getAllTweets(self,since_id):
         tweets = []
         for id in range(10):
             tweet = tweepy.Status()
-            tweet.id = id       
+            tweet.id = id
             tweet.user = User()
-            tweet.user.name = "User-"+str(id)  
-            tweet.in_reply_to_status_id=None            
-            tweets.append(tweet)               
+            tweet.user.name = "User-"+str(id)
+            tweet.text = str(id)
+            tweet.in_reply_to_status_id=None
+            tweets.append(tweet)
         return tweets
 
     def getOneComment(self,since_id):
@@ -30,18 +31,20 @@ class ReplyTest(unittest.TestCase):
         tweets = []
 
         tweet = tweepy.Status()
-        tweet.id = since_id       
+        tweet.id = since_id
         tweet.user = User()
-        tweet.user.name = "User-"+str(tweet.id)  
-        tweet.in_reply_to_status_id=None      
+        tweet.user.name = "User-"+str(tweet.id)
+        tweet.in_reply_to_status_id=None
+        tweet.text = "tweet-" + str(tweet.id)
 
-        tweets.append(tweet)               
+        tweets.append(tweet)
 
         tweet = tweepy.Status()
-        tweet.id = since_id+1       
+        tweet.id = since_id+1
         tweet.user = User()
-        tweet.user.name = "User-"+str(tweet.id)  
-        tweet.in_reply_to_status_id=since_id-1      
+        tweet.user.name = "User-"+str(tweet.id)
+        tweet.in_reply_to_status_id=since_id-1
+        tweet.text = "tweet-" + str(tweet.id)
 
         tweets.append(tweet)
 
@@ -52,56 +55,56 @@ class ReplyTest(unittest.TestCase):
         tweets = []
 
         tweet = tweepy.Status()
-        tweet.id = since_id       
+        tweet.id = since_id
         tweet.user = User()
-        tweet.user.name = "User-"+str(tweet.id)  
-        tweet.in_reply_to_status_id=since_id-1      
+        tweet.user.name = "User-"+str(tweet.id)
+        tweet.in_reply_to_status_id=since_id-1
 
-        tweets.append(tweet)               
+        tweets.append(tweet)
 
         tweet = tweepy.Status()
-        tweet.id = since_id+1       
+        tweet.id = since_id+1
         tweet.user = User()
-        tweet.user.name = "User-"+str(tweet.id)  
-        tweet.in_reply_to_status_id=since_id-2    
+        tweet.user.name = "User-"+str(tweet.id)
+        tweet.in_reply_to_status_id=since_id-2
 
         tweets.append(tweet)
 
         return tweets
 
     def sendTweet(self, stat, replyId):
-        print("replying "+str(stat)+" to tweet "+str(replyId))    
-        
-    
-    
+        print("replying "+str(stat)+" to tweet "+str(replyId))
+
+
+
     @patch.object(Twitter, 'getMentions')
     @patch.object(Twitter, 'tweetReply')
     # patched parameters are from bottom to up order
-    def test_reply_for_all_tweets(self, mock_tweetReply, mock_getMentions):   
+    def test_reply_for_all_tweets(self, mock_tweetReply, mock_getMentions):
         mock_getMentions.side_effect=self.getAllTweets
-        mock_tweetReply.side_effect=self.sendTweet    
+        mock_tweetReply.side_effect=self.sendTweet
         reply.replyToMentions(1)
         self.assertEqual(10,mock_tweetReply.call_count)
-    
-    
+
+
     @patch.object(Twitter, 'getMentions')
     @patch.object(Twitter, 'tweetReply')
     # patched parameters are from bottom to up order
-    def test_no_reply_for_one_comment(self, mock_tweetReply, mock_getMentions):        
-        
+    def test_no_reply_for_one_comment(self, mock_tweetReply, mock_getMentions):
+
         mock_getMentions.side_effect=self.getOneComment
-        mock_tweetReply.side_effect=self.sendTweet    
+        mock_tweetReply.side_effect=self.sendTweet
         reply.replyToMentions(1)
         # shouldn't reply to comment - call count should be totaltweet count -1
         self.assertEqual(1,mock_tweetReply.call_count)
-    
+
     @patch.object(Twitter, 'getMentions')
     @patch.object(Twitter, 'tweetReply')
     # patched parameters are from bottom to up order
-    def test_no_reply_for_all_coments(self, mock_tweetReply, mock_getMentions):        
-        
+    def test_no_reply_for_all_coments(self, mock_tweetReply, mock_getMentions):
+
         mock_getMentions.side_effect=self.get_all_comments
-        mock_tweetReply.side_effect=self.sendTweet    
+        mock_tweetReply.side_effect=self.sendTweet
         reply.replyToMentions(1)
         # all comments - so no call should be made
         self.assertEqual(0,mock_tweetReply.call_count)
