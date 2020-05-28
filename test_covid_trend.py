@@ -226,18 +226,26 @@ class CovidTrendTest(unittest.TestCase):
     def test_get_matching_country_hit_country_not_as_word_in_tweet(self):
         matching_country = covid_trend.get_matching_country("getBurkina Fasodetails.")
         self.assertEqual("burkina-faso", matching_country)
-
     def test_get_matching_country_hit_country_at_end_of_tweet(self):
         matching_country = covid_trend.get_matching_country("get Burkina Faso")
         self.assertEqual("burkina-faso", matching_country)
+
     def test_get_matching_country_hit_slug_full_string_match(self):
-        pass
+        matching_country = covid_trend.get_matching_country("moldova")
+        self.assertEqual("moldova", matching_country)
     def test_get_matching_country_hit_slug_as_word_in_tweet(self):
-        pass
+        matching_country = covid_trend.get_matching_country("get moldova data.")
+        self.assertEqual("moldova", matching_country)
     def test_get_matching_country_hit_slug_not_as_word_in_tweet(self):
-        pass
-    def test_get_matching_country_hit_iso2(self):
-        pass
+        matching_country = covid_trend.get_matching_country("get moldovadata.")
+        self.assertEqual("moldova", matching_country)
+    def test_get_matching_country_hit_slug_end_of_tweet(self):
+        matching_country = covid_trend.get_matching_country("get trend moldova")
+        self.assertEqual("moldova", matching_country)
+
+    def test_get_matching_country_hit_iso2_full_string_no_space(self):
+        matching_country = covid_trend.get_matching_country("BE")
+        self.assertEqual("belgium", matching_country)
     def test_get_matching_country_hit_iso2_no_space(self):
         pass
     def test_get_matching_country_hit_iso2_at_end_of_tweet(self):

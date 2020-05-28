@@ -15,6 +15,7 @@ def load_countries():
 def get_matching_country(tweet):
     matching_country = None
     tweet_lower = tweet.lower()
+    tweet_split_to_words = tweet_lower.split()
     if(COUNTRIES == None):
         load_countries()
     for country in COUNTRIES:
@@ -22,11 +23,11 @@ def get_matching_country(tweet):
             matching_country = country['Slug']
             break
         else:
-            if(str(" "+country['ISO2']+" ").lower() in tweet_lower):
+            if(str(country['Slug']).lower() in tweet_lower):
                 matching_country = country['Slug']
                 break
             else:
-                if(str(country['Slug']).lower() in tweet_lower):
+                if(str(country['ISO2']).lower() in tweet_split_to_words):
                     matching_country = country['Slug']
                     break
     return matching_country
