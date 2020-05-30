@@ -1,9 +1,9 @@
 import unittest
 import sys
 import os
-import data
+import Bot.data as data
 
-class DataTest(unittest.TestCase): 
+class DataTest(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(DataTest, self).__init__(*args, **kwargs)
@@ -27,17 +27,17 @@ class DataTest(unittest.TestCase):
     def test_getSinceId_noFIle(self):
         data.resetSinceId()
         self.assertEqual(1,int(data.getSinceId()))
-    
+
     def test_getSinceId_EmptyFile(self):
         try:
             emptyFile=open(self.file,"w+")
-            emptyFile.close()   
-            self.assertEqual(1,data.getSinceId())            
+            emptyFile.close()
+            self.assertEqual(1,data.getSinceId())
         except Exception as e:
             raise e
         finally:
             emptyFile.close()
-                    
+
     def test_getSinceId_readFromFile(self):
         data.setSinceId(100)
         self.assertEqual(100, data.getSinceId())
@@ -47,8 +47,8 @@ class DataTest(unittest.TestCase):
         self.assertEqual(100,data.getSinceId())
         data.setSinceId(1500)
         self.assertEqual(1500, data.getSinceId())
-        
+
 
 if __name__ == "__main__":
     unittest.main()
-    
+

@@ -1,8 +1,11 @@
 import os.path
 import sys
-import config
+from Bot.config import Config
+import os
 
-DATA_FILE = os.path.join(config.PARENT_FOLDER,"data/data.txt")
+conf = Config()
+PARENT_FOLDER = os.path.abspath(os.path.dirname(__file__))
+DATA_FILE = os.path.join(PARENT_FOLDER, os.pardir, "data/data.txt")
 
 def getSinceId():
     sinceId = 1
@@ -14,18 +17,18 @@ def getSinceId():
             if (os.path.getsize(DATA_FILE) != 0): #read from file, if file is not empty
                 sinceId = int(dataFile.read())
         except Exception as e:
-            config.LOGGER.info(e)           
+            Config.LOGGER.info(e)
         finally:
             dataFile.close()
-    
+
     return sinceId
 
-def setSinceId(Id):    
+def setSinceId(Id):
     try:
         dataFile = open(DATA_FILE,"w+")
         dataFile.write(str(Id))
     except Exception as e:
-        config.LOGGER.info(e)
+        Config.LOGGER.info(e)
     finally:
         dataFile.close()
 
@@ -34,5 +37,5 @@ def resetSinceId():
         if(os.path.exists(DATA_FILE)):
             os.remove(DATA_FILE)
     except Exception as e:
-        config.LOGGER.info(e)
+        Config.LOGGER.info(e)
         raise e
