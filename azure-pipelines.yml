@@ -41,8 +41,8 @@ steps:
       !__pycache__/**/*
       !azure-pipelines.yml
       !Docker
-      !*.txt
-      !test_*.py
+      !Test/**/*
+      !.vscode/**/*
 
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
