@@ -3,6 +3,7 @@ import Bot.chart_api as chart_api
 from Bot.config import Config
 import json
 import os
+import random
 
 COUNTRIES = None
 
@@ -11,6 +12,13 @@ def load_countries():
     if (os.path.exists(os.path.join(Config.PARENT_FOLDER, os.pardir ,"data/countries.json"))):
         with open(os.path.join(Config.PARENT_FOLDER, os.pardir, "data/countries.json")) as countries_data:
             COUNTRIES = json.load(countries_data)
+
+
+def get_random_country():
+    if(COUNTRIES == None):
+        load_countries()
+    return random.choice(COUNTRIES)['Slug']
+
 
 def get_matching_country(text):
     matching_country = None
@@ -89,6 +97,25 @@ def genereate_covid_death_trend_reply(tweet):
                 if (url == None):
                     response_string = "Sorry!.Couldn't generate trend for "+country
                 else:
+                    # *Generate Reply string
+                    response_string = "Daily Death Trend for "+country+": " + url
+    except Exception as ex:
+        Config.LOGGER.info(ex)
+    finally:
+        return response_string
+
+def generate_random_country_tweet():
+    response_string = None
+    try:
+        # *Get random country
+        country = get_random_country()
+        if(country != None):
+            # Get covid data, call covid19 API
+            daily_death_trend = get_daily_death_trend(country)
+            if (len(daily_death_trend) > 0):
+                # *Genereate trend Graph
+                url = get_death_trend_graph(daily_death_trend)
+                if (url != None):
                     # *Generate Reply string
                     response_string = "Daily Death Trend for "+country+": " + url
     except Exception as ex:

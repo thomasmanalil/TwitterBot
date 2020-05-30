@@ -44,7 +44,7 @@ class CovidTrendTest(unittest.TestCase):
     def setUp(self):
         covid_trend.COUNTRIES = None
 
-    # TODO: Update Test cases.
+
     ''' Test cases for get_daily_death_trend '''
     @patch.object(covid_api, 'get_covid_daily_deaths')
     def test_calculate_dataset_no_province(self,mock_covid_api):
@@ -205,7 +205,7 @@ class CovidTrendTest(unittest.TestCase):
         pass
 
 
-    # TODO - Add test cases for get_matching_country
+    # test cases for get_matching_country
 
     def test_get_matching_country_COUNTRIES_not_loaded(self):
         covid_trend.get_matching_country("sample tweet")
@@ -277,7 +277,17 @@ class CovidTrendTest(unittest.TestCase):
         matching_country = covid_trend.get_matching_country("BuRkInA fAsO")
         self.assertEqual("burkina-faso", matching_country)
 
+    def test_get_random_country(self):
+        country1 = covid_trend.get_random_country()
+        country2 = covid_trend.get_random_country()
+        self.assertNotEqual(country1, country2)
+    def test_get_random_country_COUNTRIES_not_loaded(self):
+        covid_trend.COUNTRIES = None
+        covid_trend.get_matching_country("sample tweet")
+        self.assertIsNot(0, len(covid_trend.COUNTRIES))
 
+    def test_generate_random_country_tweet(self):
+        pass
     if __name__ == "__main__":
         unittest.main()
 
