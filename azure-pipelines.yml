@@ -43,6 +43,10 @@ steps:
       !Docker
       !Test/**/*
       !.vscode/**/*
+      !Bot/__pycache__/**/*
+      !Bot/.gitignore
+      !config/.gitignore
+      !data/.gitignore
 
     TargetFolder: $(Build.ArtifactStagingDirectory)
     CleanTargetFolder: true
