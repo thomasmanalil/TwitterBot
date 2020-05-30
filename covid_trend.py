@@ -12,22 +12,22 @@ def load_countries():
         with open(os.path.join(Config.PARENT_FOLDER,"data/countries.json")) as countries_data:
             COUNTRIES = json.load(countries_data)
 
-def get_matching_country(tweet):
+def get_matching_country(text):
     matching_country = None
-    tweet_lower = tweet.lower()
-    tweet_split_to_words = tweet_lower.split()
+    text_lower = text.lower()
+    text_split_to_words = text_lower.split()
     if(COUNTRIES == None):
         load_countries()
     for country in COUNTRIES:
-        if(str(country['Country']).lower() in tweet_lower):
+        if(str(country['Country']).lower() in text_lower):
             matching_country = country['Slug']
             break
         else:
-            if(str(country['Slug']).lower() in tweet_lower):
+            if(str(country['Slug']).lower() in text_lower):
                 matching_country = country['Slug']
                 break
             else:
-                if(str(country['ISO2']).lower() in tweet_split_to_words):
+                if(str(country['ISO2']).lower() in text_split_to_words):
                     matching_country = country['Slug']
                     break
     return matching_country

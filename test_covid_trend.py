@@ -243,23 +243,39 @@ class CovidTrendTest(unittest.TestCase):
         matching_country = covid_trend.get_matching_country("get trend moldova")
         self.assertEqual("moldova", matching_country)
 
-    def test_get_matching_country_hit_iso2_full_string_no_space(self):
+    def test_get_matching_country_hit_iso2_only_word_in_tweet(self):
         matching_country = covid_trend.get_matching_country("BE")
         self.assertEqual("belgium", matching_country)
-    def test_get_matching_country_hit_iso2_no_space(self):
-        pass
+    def test_get_matching_country_hit_iso2_small_letter(self):
+        matching_country = covid_trend.get_matching_country("be")
+        self.assertEqual("belgium", matching_country)
+    def test_get_matching_country_hit_iso2_as_word(self):
+        matching_country = covid_trend.get_matching_country("get be trend")
+        self.assertEqual("belgium", matching_country)
+    def test_get_matching_country_hit_iso2_not_as_word(self):
+        matching_country = covid_trend.get_matching_country("getBE trend")
+        self.assertEqual(None, matching_country)
     def test_get_matching_country_hit_iso2_at_end_of_tweet(self):
-        pass
+        matching_country = covid_trend.get_matching_country("get BE")
+        self.assertEqual("belgium", matching_country)
+    def test_get_matching_country_hit_iso2_at_start_of_tweet(self):
+        matching_country = covid_trend.get_matching_country("BE trend")
+        self.assertEqual("belgium", matching_country)
     def test_get_matching_country_no_hit(self):
-        pass
+        matching_country = covid_trend.get_matching_country("BEtrend XYZ")
+        self.assertEqual(None, matching_country)
     def test_get_matching_country_partial_match(self):
-        pass
-    def test_get_matching_country_multiple_match(self):
-        pass
+        matching_country = covid_trend.get_matching_country("trend united")
+        self.assertEqual(None, matching_country)
+    def test_get_matching_country_multiple_match_iso2(self):
+        matching_country = covid_trend.get_matching_country("IN BE")
+        self.assertEqual("belgium", matching_country)
     def test_get_matching_country_BLOCK_LETTERS(self):
-        pass
+        matching_country = covid_trend.get_matching_country("BURKINA FASO")
+        self.assertEqual("burkina-faso", matching_country)
     def test_get_matching_country_camel_case(self):
-        pass
+        matching_country = covid_trend.get_matching_country("BuRkInA fAsO")
+        self.assertEqual("burkina-faso", matching_country)
 
 
     if __name__ == "__main__":
