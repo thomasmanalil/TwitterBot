@@ -1,11 +1,11 @@
 import tweepy
 import logging
-from config import Config
+from Bot.config import Config
 import time
 import os.path
 import data
-from twitter import Twitter
-import covid_trend
+from Bot.twitter import Twitter
+import Bot.covid_trend as covid_trend
 
 conf = Config()
 #--> log to file

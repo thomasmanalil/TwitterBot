@@ -1,7 +1,7 @@
 import unittest
-import covid_trend
-import covid_api
-import chart_api
+import Bot.covid_trend as covid_trend
+import Bot.covid_api as covid_api
+import Bot.chart_api as chart_api
 from unittest.mock import patch
 import json
 import os

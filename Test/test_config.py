@@ -1,13 +1,14 @@
 import unittest
 import json
-import config
-from config import Config
+import Bot.config as config
+from Bot.config import Config
 from unittest.mock import patch
 import os
 from shutil import copy
 
-file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "config/config.json")
-file_copy_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "config/config_copy.json")
+file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, "config/config.json")
+file_copy_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, "config/config_copy.json")
+
 
 # mock json data function
 def return_json(path):
@@ -21,21 +22,21 @@ def return_json(path):
         }
         ''')
 class TestConfig(unittest.TestCase):
-    
-    def setUp(self):        
-        # make a copy of config.json 
-        copy(file_path,file_copy_path)        
+
+    def setUp(self):
+        # make a copy of config.json
+        copy(file_path,file_copy_path)
 
     def tearDown(self):
-        # replace config.json with backu taken in setup  
+        # replace config.json with backu taken in setup
         copy(file_copy_path,file_path)
-        os.remove(file_copy_path)            
+        os.remove(file_copy_path)
 
     ''' Positive test case'''
     @patch.object(config, 'read_json_file')
     def test_read_from_file(self, mock_json):
         # values to compare
-        sample_json = return_json("") 
+        sample_json = return_json("")
         # mock function to return json
         mock_json.side_effect = return_json
         conf_test =Config()
@@ -43,7 +44,7 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(sample_json['ACCESS_TOKEN'], conf_test.ACCESS_TOKEN)
         self.assertEqual(sample_json['ACCESS_TOKEN_SECRET'], conf_test.ACCESS_TOKEN_SECRET)
         self.assertEqual(sample_json['CONSUMER_KEY'], conf_test.CONSUMER_KEY)
-        self.assertEqual(sample_json['CONSUMER_SECRET'], conf_test.CONSUMER_SECRET)        
+        self.assertEqual(sample_json['CONSUMER_SECRET'], conf_test.CONSUMER_SECRET)
 
 
     ''' Exception handling test case'''
@@ -60,17 +61,16 @@ class TestConfig(unittest.TestCase):
         os.remove(file_path)
         # function to be tested
         conf_test = Config()
-        
+
         # values should be empty strings
         self.assertEqual("", conf_test.ACCESS_TOKEN)
         self.assertEqual("", conf_test.ACCESS_TOKEN_SECRET)
         self.assertEqual("", conf_test.CONSUMER_KEY)
-        self.assertEqual("", conf_test.CONSUMER_SECRET)        
-        
+        self.assertEqual("", conf_test.CONSUMER_SECRET)
+
 
 
 if __name__ == "__main__":
     unittest.main()
 
-    
-    
+

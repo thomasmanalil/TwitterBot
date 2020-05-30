@@ -1,6 +1,6 @@
-import covid_api
-import chart_api
-from config import Config
+import Bot.covid_api as covid_api
+import Bot.chart_api as chart_api
+from Bot.config import Config
 import json
 import os
 
@@ -8,8 +8,8 @@ COUNTRIES = None
 
 def load_countries():
     global COUNTRIES
-    if (os.path.exists(os.path.join(Config.PARENT_FOLDER,"data/countries.json"))):
-        with open(os.path.join(Config.PARENT_FOLDER,"data/countries.json")) as countries_data:
+    if (os.path.exists(os.path.join(Config.PARENT_FOLDER, os.pardir ,"data/countries.json"))):
+        with open(os.path.join(Config.PARENT_FOLDER, os.pardir, "data/countries.json")) as countries_data:
             COUNTRIES = json.load(countries_data)
 
 def get_matching_country(text):
@@ -95,7 +95,3 @@ def genereate_covid_death_trend_reply(tweet):
         Config.LOGGER.info(ex)
     finally:
         return response_string
-
-
-if __name__ == "__main__":
-    print(get_matching_country("United Kingdom"))

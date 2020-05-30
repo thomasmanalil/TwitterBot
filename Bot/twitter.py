@@ -1,5 +1,5 @@
 import tweepy
-from config import Config
+from Bot.config import Config
 
 def createAPI():
     #setting twitter tokens
@@ -31,7 +31,3 @@ class Twitter(object):
             print("Failed to verify.")
             raise ex
         print("Tokens are valid. Credentials verified.")
-
-if __name__ == "__main__":
-    tw = Twitter()
-    tw.verifyLogin()

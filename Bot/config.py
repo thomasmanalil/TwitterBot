@@ -15,7 +15,7 @@ class Config ():
     LOGGER = logging.getLogger()
     LOGGER.setLevel(logging.INFO)
     def __init__(self):
-        path = os.path.join(Config.PARENT_FOLDER, "config/config.json")
+        path = os.path.join(Config.PARENT_FOLDER, os.pardir , "config/config.json")
         self.CONSUMER_KEY = ""
         self.CONSUMER_SECRET = ""
         self.ACCESS_TOKEN = ""

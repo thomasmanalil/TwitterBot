@@ -1,7 +1,7 @@
 import unittest
 import sys
 import os
-import data
+import Bot.data as data
 
 class DataTest(unittest.TestCase):
 

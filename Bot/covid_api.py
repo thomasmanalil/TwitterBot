@@ -13,8 +13,3 @@ def get_covid_daily_deaths(country="united-kingdom"):
         print(ex)
     finally:
         return data
-    # TODO: add error handling
-
-
-if __name__ == "__main__":
-    d = get_covid_daily_deaths("united-kingdom")

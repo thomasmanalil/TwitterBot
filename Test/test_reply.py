@@ -1,13 +1,13 @@
 
 from unittest.mock import Mock
 import unittest
-import reply
+import Bot.reply as reply
 from unittest.mock import patch
 from unittest.mock import create_autospec
 import array
 import tweepy
 from tweepy import User
-from twitter import Twitter
+from Bot.twitter import Twitter
 import os
 
 PARENT_FOLDER = os.path.abspath(os.path.dirname(__file__))

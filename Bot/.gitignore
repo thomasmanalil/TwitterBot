@@ -1,0 +1,8 @@
+__pycahce*
+*.cpython*
+*config.json
+lastfailed*
+.vscode/launch.json
+.vscode/.ropeproject/config.py
+.vscode/.ropeproject/objectdb
+test-data/test_scripts.py
