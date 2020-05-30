@@ -27,8 +27,15 @@ steps:
 
 - script: |
     pip install pytest
-    python -m  pytest    
+    python -m  pytest --junitxml=.\Test\Test-Results.xml
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
+    testRunTitle: 'Azure-Pipeline-Test'
   displayName: 'pytest'
+
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Build.SourcesDirectory)'
