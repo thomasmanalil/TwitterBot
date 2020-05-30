@@ -27,11 +27,11 @@ steps:
 
 - script: |
     pip install pytest
-    python -m  pytest --junitxml=.\Test\Test-Results.xml
+    python -m  pytest --junitxml='$(Build.SourcesDirectory)'\Test\TEST-Results.xml
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: '$(Build.SourcesDirectory)\Test\TEST-Results.xml'
     failTaskOnFailedTests: true
     testRunTitle: 'Azure-Pipeline-Test'
   displayName: 'pytest'
