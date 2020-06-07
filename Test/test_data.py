@@ -2,16 +2,23 @@ import unittest
 import sys
 import os
 import Bot.data as data
+from shutil import copy
 
 class DataTest(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(DataTest, self).__init__(*args, **kwargs)
         self.file = data.DATA_FILE
+        self.file_copy_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), os.pardir, "data/data_copy.txt")
+
+    def setUp(self):
+        if(os.path.exists(self.file)):
+            copy(self.file, self.file_copy_path)
 
     def tearDown(self):
-        if(os.path.exists(self.file)):
-            os.remove(self.file)
+        if(os.path.exists(self.file_copy_path)):
+            copy(self.file_copy_path, self.file)
+            os.remove(self.file_copy_path)
 
 
     def test_resetSinceId_noFile(self):

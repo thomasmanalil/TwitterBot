@@ -11,9 +11,8 @@ def read_json_file(file_path):
 
 class Config ():
     PARENT_FOLDER = os.path.abspath(os.path.dirname(__file__))
-    #logging.basicConfig(level=logging.INFO).getLogger()
+    logging.basicConfig(level=logging.INFO, filename='.\Log/twitterbot.log', filemode='a', format='%(asctime)s- %(message)s', datefmt='%d-%b-%y %H:%M:%S')
     LOGGER = logging.getLogger()
-    LOGGER.setLevel(logging.INFO)
     def __init__(self):
         path = os.path.join(Config.PARENT_FOLDER, os.pardir , "config/config.json")
         self.CONSUMER_KEY = ""

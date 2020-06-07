@@ -19,7 +19,6 @@ def get_random_country():
         load_countries()
     return random.choice(COUNTRIES)['Slug']
 
-
 def get_matching_country(text):
     matching_country = None
     text_lower = text.lower()

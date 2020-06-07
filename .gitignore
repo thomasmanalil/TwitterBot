@@ -2,3 +2,4 @@ Test/test-data/test_scripts.py
 .vscode/.ropeproject/objectdb
 .vscode/launch.json
 config/config copy.json
+__pycache__

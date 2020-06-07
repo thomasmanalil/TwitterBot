@@ -3,7 +3,7 @@ import logging
 from Bot.config import Config
 import time
 import os.path
-import data
+import Bot.data as data
 from Bot.twitter import Twitter
 import Bot.covid_trend as covid_trend
 
@@ -18,22 +18,13 @@ def replyToMentions(sinceId):
         if tweet.in_reply_to_status_id is not None:
             continue
         Config.LOGGER.info(f"Replying to {tweet.user.name}")
-
-        # -->if retweet
-
-        # --> if comment
-
-        # --> if main tweet
-
-
-        # -->call another API to get response
-
         try:
             #api.update_status(status="Hello!",in_reply_to_status_id=tweet.id,auto_populate_reply_metadata=True)
             #tweetReply(status="Hello!",in_reply_to_status_id=tweet.id,auto_populate_reply_metadata=True)
             # TODO - check tweet.text is right usage
             reply = covid_trend.genereate_covid_death_trend_reply(tweet.text)
             if (reply is not None):
+                Config.LOGGER.info(reply)
                 twitter.tweetReply(reply,tweet.id)
                 #print(f"{tweet.text} : {reply}")
 
